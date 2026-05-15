@@ -110,6 +110,7 @@
     }
 
     .preset-box{
+      backdrop-filter:blur(16px);
       display:flex;
       flex-wrap:wrap;
       gap:10px;
@@ -136,23 +137,57 @@
 
     .grid{
       display:grid;
-      grid-template-columns:repeat(12,1fr);
-      gap:18px;
+      grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
+      gap:22px;
+      overflow:visible;
+      padding:4px 4px 22px;
+      align-items:stretch;
     }
 
     .panel{
-      grid-column:span 12;
-      background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015));
-      border:1px solid var(--line);
-      border-radius:24px;
+      width:100%;
+      max-width:none;
+      height:100%;
+      position:relative;
+      background:
+        radial-gradient(circle at top right, rgba(94,162,255,.16), transparent 34%),
+        radial-gradient(circle at bottom left, rgba(143,107,255,.12), transparent 36%),
+        linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.018));
+      border:1px solid rgba(151,180,255,.28);
+      border-radius:26px;
       overflow:hidden;
-      box-shadow:var(--shadow);
+      box-shadow:
+        0 18px 42px rgba(0,0,0,.34),
+        0 0 0 1px rgba(255,255,255,.035),
+        0 0 28px rgba(94,162,255,.08);
+      transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+
+    .panel::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      border-radius:inherit;
+      background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 28%,rgba(94,162,255,.06));
+      opacity:.75;
+    }
+
+    .panel:hover{
+      transform:translateY(-2px);
+      border-color:rgba(151,180,255,.46);
+      box-shadow:
+        0 22px 48px rgba(0,0,0,.42),
+        0 0 0 1px rgba(255,255,255,.055),
+        0 0 34px rgba(94,162,255,.14);
     }
 
     .panel-header{
-      padding:18px 18px 14px;
-      background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01));
-      border-bottom:1px solid rgba(255,255,255,.06);
+      position:relative;
+      z-index:1;
+      padding:20px 20px 15px;
+      background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.012));
+      border-bottom:1px solid rgba(151,180,255,.15);
     }
     .panel-header h2{
       margin:0;
@@ -166,20 +201,24 @@
     }
 
     .panel-body{
-      padding:18px;
+      position:relative;
+      z-index:1;
+      padding:20px;
     }
 
     .fields{
       display:grid;
       grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-      gap:14px;
+      gap:16px;
+      align-items:start;
     }
 
     .field{
       display:flex;
       flex-direction:column;
-      gap:8px;
+      gap:9px;
       min-width:0;
+      padding:2px;
     }
     .field label{
       font-weight:700;
@@ -191,13 +230,20 @@
     .field input,
     .field textarea{
       width:100%;
-      background:#0f1730;
+      background:linear-gradient(180deg,#101a34,#0d142b);
       color:var(--text);
-      border:1px solid var(--line);
-      border-radius:14px;
+      border:1px solid rgba(151,180,255,.24);
+      border-radius:15px;
       padding:12px 14px;
       outline:none;
       min-height:48px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.035);
+    }
+    .field select:focus,
+    .field input:focus,
+    .field textarea:focus{
+      border-color:rgba(94,162,255,.68);
+      box-shadow:0 0 0 3px rgba(94,162,255,.13), inset 0 1px 0 rgba(255,255,255,.045);
     }
     .field textarea{
       min-height:132px;
@@ -253,8 +299,259 @@
       font-size:14px;
     }
 
+
+    .toggle-field{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:14px;
+      background:#0f1730;
+      border:1px solid var(--line);
+      border-radius:14px;
+      min-height:58px;
+    }
+    .toggle-field input{
+      width:22px;
+      height:22px;
+      accent-color:var(--accent);
+      flex:0 0 auto;
+    }
+    .toggle-field span{
+      color:#eaf1ff;
+      font-weight:700;
+      font-size:13px;
+      line-height:1.35;
+    }
+
+
+    .category-control{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .custom-row{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:8px;
+      align-items:center;
+    }
+
+    .custom-row input{
+      min-height:44px;
+    }
+
+    .lock-btn{
+      min-height:44px;
+      padding:10px 12px;
+      border-radius:12px;
+      background:#192443;
+      color:#eaf1ff;
+      border:1px solid var(--line);
+      white-space:nowrap;
+      font-size:12px;
+      box-shadow:none;
+    }
+
+    .lock-btn.locked{
+      background:linear-gradient(135deg,#ffcf66,#ffb347);
+      color:#2b1800;
+      border-color:#ffcf66;
+    }
+
+    .field-hint{
+      margin:0;
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.35;
+    }
+
+
+    .product-output-section{
+      margin-top:22px;
+    }
+
+    .product-output-header{
+      margin-bottom:16px;
+      padding:20px;
+      border-radius:24px;
+      background:
+        radial-gradient(circle at top right, rgba(94,162,255,.15), transparent 34%),
+        radial-gradient(circle at bottom left, rgba(143,107,255,.12), transparent 36%),
+        linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.018));
+      border:1px solid rgba(151,180,255,.24);
+      box-shadow:0 16px 38px rgba(0,0,0,.28), 0 0 24px rgba(94,162,255,.07);
+    }
+
+    .product-output-header h2{
+      margin:0;
+      font-size:22px;
+      letter-spacing:-.02em;
+    }
+
+    .product-output-header p{
+      margin:7px 0 0;
+      color:var(--muted);
+      line-height:1.55;
+      font-size:14px;
+    }
+
+    .product-output-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+      gap:22px;
+      align-items:stretch;
+    }
+
+    .product-output-card{
+      position:relative;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      min-width:0;
+      background:
+        radial-gradient(circle at top right, rgba(94,162,255,.14), transparent 35%),
+        radial-gradient(circle at bottom left, rgba(143,107,255,.10), transparent 38%),
+        linear-gradient(180deg,rgba(255,255,255,.052),rgba(255,255,255,.018));
+      border:1px solid rgba(151,180,255,.28);
+      border-radius:26px;
+      padding:20px;
+      box-shadow:
+        0 18px 42px rgba(0,0,0,.34),
+        0 0 0 1px rgba(255,255,255,.035),
+        0 0 28px rgba(94,162,255,.08);
+      overflow:hidden;
+    }
+
+    .product-output-card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      border-radius:inherit;
+      background:linear-gradient(135deg,rgba(255,255,255,.11),transparent 30%,rgba(94,162,255,.055));
+      opacity:.72;
+    }
+
+    .product-output-card > *{
+      position:relative;
+      z-index:1;
+    }
+
+    .product-output-card h3{
+      margin:0;
+      font-size:18px;
+      letter-spacing:-.01em;
+    }
+
+    .product-output-card label{
+      font-weight:700;
+      color:#dbe7ff;
+      font-size:13px;
+    }
+
+    .product-output-card select,
+    .product-output-card textarea{
+      width:100%;
+      background:linear-gradient(180deg,#101a34,#0d142b);
+      color:var(--text);
+      border:1px solid rgba(151,180,255,.24);
+      border-radius:15px;
+      padding:12px 14px;
+      outline:none;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.035);
+    }
+
+    .product-output-card select{
+      min-height:48px;
+    }
+
+    .product-output-card textarea{
+      min-height:190px;
+      resize:vertical;
+      line-height:1.55;
+    }
+
+    .product-output-card button{
+      width:100%;
+      margin-top:auto;
+      white-space:normal;
+    }
+
+    @media (max-width:560px){
+      .product-output-grid{
+        grid-template-columns:1fr;
+        gap:16px;
+      }
+      .product-output-header,
+      .product-output-card{
+        border-radius:22px;
+        padding:16px;
+      }
+    }
+
+    @media (max-width:560px){
+      .custom-row{
+        grid-template-columns:1fr;
+      }
+      .lock-btn{
+        width:100%;
+      }
+    }
+
+
+
+    /* Readability fix: keep dropdown options and custom fields high-contrast on all browsers */
+    select,
+    select option,
+    select optgroup{
+      background:#0d142b !important;
+      color:#ffffff !important;
+    }
+
+    select option:checked,
+    select option:hover{
+      background:#22345f !important;
+      color:#ffffff !important;
+    }
+
+    .field select,
+    .field input,
+    .field textarea,
+    .custom-row input,
+    .product-output-card select,
+    .product-output-card textarea,
+    .preset-box select{
+      color:#ffffff !important;
+      background:#0d142b !important;
+      caret-color:#ffffff;
+    }
+
+    .field input::placeholder,
+    .field textarea::placeholder,
+    .custom-row input::placeholder,
+    .product-output-card textarea::placeholder{
+      color:#b8c6ea !important;
+      opacity:1;
+    }
     @media (max-width:980px){
       .two-col{grid-template-columns:1fr}
+      .grid{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+      .panel{width:100%;max-width:none}
+    }
+
+    @media (max-width:560px){
+      body{padding:14px}
+      .hero{padding:20px;border-radius:22px}
+      .preset-box{align-items:stretch}
+      .preset-box select,
+      .preset-box button,
+      .output-toolbar button{width:100%}
+      .grid{grid-template-columns:1fr;gap:16px;padding:2px 0 18px}
+      .panel{border-radius:22px}
+      .panel-header{padding:17px 16px 13px}
+      .panel-body{padding:16px}
+      .fields{grid-template-columns:1fr;gap:14px}
     }
   </style>
 </head>
@@ -315,8 +612,93 @@
       </div>
     </div>
 
+    <section class="product-output-section" id="productMockupOutputs">
+      <div class="product-output-header">
+        <h2>Product Mockup Outputs</h2>
+        <p>Optional sales-ready prompt cards connected to the main generated sports concept. Choose a mockup direction, generate, then copy the prompt you want.</p>
+      </div>
+
+      <div class="product-output-grid">
+        <div class="product-output-card">
+          <h3>Product Mockup Prompt</h3>
+          <label for="productMockupStyle">Mockup direction</label>
+          <select id="productMockupStyle">
+            <option>Full Product Bundle Mockup</option>
+            <option>Framed Wall Art + Poster Print</option>
+            <option>Tumbler Wrap + Cup Mockup</option>
+            <option>T-Shirt Graphic Mockup</option>
+            <option>Sticker Sheet Mockup</option>
+            <option>Phone Wallpaper Preview</option>
+            <option>Social Media Content Bundle</option>
+          </select>
+          <textarea id="productMockupOutput" placeholder="Generate prompts to create a product mockup prompt..."></textarea>
+          <button class="btn-dark" id="copyProductMockupBtn">Copy Product Mockup Prompt</button>
+        </div>
+
+        <div class="product-output-card">
+          <h3>Digital Product Cover Prompt</h3>
+          <label for="digitalProductCoverStyle">Cover direction</label>
+          <select id="digitalProductCoverStyle">
+            <option>Prompt Pack Cover</option>
+            <option>AI Image Kit Cover</option>
+            <option>Sports Poster Bundle Cover</option>
+            <option>Athlete Graphic Collection Cover</option>
+            <option>Printable Wall Art Cover</option>
+            <option>Commercial Mockup Kit Cover</option>
+          </select>
+          <textarea id="digitalProductCoverOutput" placeholder="Generate prompts to create a digital product cover prompt..."></textarea>
+          <button class="btn-dark" id="copyDigitalProductCoverBtn">Copy Digital Product Cover Prompt</button>
+        </div>
+
+        <div class="product-output-card">
+          <h3>Sales Page Cover Prompt</h3>
+          <label for="salesPageCoverStyle">Sales page direction</label>
+          <select id="salesPageCoverStyle">
+            <option>Hero Banner Cover</option>
+            <option>Launch Promo Cover</option>
+            <option>Limited-Time Offer Cover</option>
+            <option>Bundle Preview Cover</option>
+            <option>High-Converting Payhip Header</option>
+            <option>Shopify Product Hero</option>
+          </select>
+          <textarea id="salesPageCoverOutput" placeholder="Generate prompts to create a sales page cover prompt..."></textarea>
+          <button class="btn-dark" id="copySalesPageCoverBtn">Copy Sales Page Cover Prompt</button>
+        </div>
+
+        <div class="product-output-card">
+          <h3>Listing Image Prompt</h3>
+          <label for="listingImageStyle">Listing direction</label>
+          <select id="listingImageStyle">
+            <option>Marketplace Listing Graphic</option>
+            <option>Payhip Product Image</option>
+            <option>Etsy Listing Preview</option>
+            <option>Gumroad Product Thumbnail</option>
+            <option>Stan Store Listing Image</option>
+            <option>Before-and-After Listing Image</option>
+          </select>
+          <textarea id="listingImageOutput" placeholder="Generate prompts to create a listing image prompt..."></textarea>
+          <button class="btn-dark" id="copyListingImageBtn">Copy Listing Image Prompt</button>
+        </div>
+
+        <div class="product-output-card">
+          <h3>Lifestyle Mockup Prompt</h3>
+          <label for="lifestyleMockupStyle">Lifestyle direction</label>
+          <select id="lifestyleMockupStyle">
+            <option>Creator Desk Lifestyle Scene</option>
+            <option>Bedroom Wall Art Scene</option>
+            <option>Sports Room Decor Scene</option>
+            <option>Merch Display Lifestyle Scene</option>
+            <option>Laptop + Phone Product Scene</option>
+            <option>Small Business Brand Scene</option>
+          </select>
+          <textarea id="lifestyleMockupOutput" placeholder="Generate prompts to create a lifestyle mockup prompt..."></textarea>
+          <button class="btn-dark" id="copyLifestyleMockupBtn">Copy Lifestyle Mockup Prompt</button>
+        </div>
+      </div>
+    </section>
+
     <div class="footer-note">
-      Tip: “Character style” controls what kind of athlete appears. “Art style / realism” controls how the final visual is rendered.
+      Tip: “Character style” controls what kind of athlete appears. “Art style category” controls the creative look family. “Art style / realism” controls how the final visual is rendered.
       “Race” and “skin tone / appearance details” are kept separate so users can control identity and complexion independently.
     </div>
   </div>
@@ -336,7 +718,12 @@
         "None","Arab","Asian","Asian and White Mixed","Biracial","Black","Black and Indigenous Mixed","Black and White Mixed","Caribbean","Central Asian","East African","East Asian","European","Hispanic","Indigenous","Latina","Latino","Mediterranean","Middle Eastern","Mixed Race","Native American","North African","Pacific Islander","Persian","South Asian","Southeast Asian","White","West African","Afro-Latina","Afro-Latino"
       ],
       characterStyle: [
-        "None","3D Toy","Action Figure","Anime Athlete","Arcade Fighter","Cartoon","Cel-Shaded Hero","Chibi","Comic Hero","Cute Mascot","Cyber Athlete","Fantasy Warrior Athlete","Game Avatar","Graphic Novel Athlete","Hand-Drawn Character","Heroic Poster Character","Hyper-Realistic Human","Kawaii Sports Star","Low-Poly Character","Mascot","Mini Figure","Paper Cut Character","Pixel Athlete","Plush Character","Pop-Art Character","Retro Cartoon","Sports Doll","Sticker Style Character","Superhero Athlete","Toy Collectible"
+        
+        "None","3D Toy","Action Figure","Anime Athlete","Arcade Fighter","Big Head Anime Chibi","Cartoon","Cel-Shaded Hero","Chibi","Collectible Figure Chibi","Comic Hero","Cute Mascot",
+        "Cyber Athlete","Exaggerated Chibi","Fantasy Warrior Athlete","Game Avatar","Glossy 3D Chibi","Graffiti Hero","Graphic Novel Athlete","Hand-Drawn Character","Heroic Poster Character","Hyper-Cute Chibi","Hyper-Realistic Human","Kawaii Sports Star","Low-Poly Character",
+        "Luxury Chibi","Mascot","Mini Athlete Chibi","Mini Figure","Paper Cut Character","Pixel Athlete","Plush Character","Pop-Art Character","Retro Cartoon","Sports Doll","Sports Mascot Chibi","Sticker Style Character","Super-Deformed Chibi","Superhero Athlete",
+        "Tiny Hero Chibi","Toy Collectible"
+      
       ],
       bodyTypeBuild: [
         "None","Agile","Athletic","Broad-Shouldered","Compact","Curvy Athletic","Defined","Endurance Build","Flexible","Heavyweight","Lean","Long-Limbed","Mesomorphic","Muscular","Powerful","Ripped","Short and Strong","Slim Athletic","Solid","Speed Build","Stocky","Strong Core","Tall","Thick Athletic","Toned","Training Build","Ultra-Lean","Wide Frame","Wing-Span Build","Youthful Athletic"
@@ -354,25 +741,30 @@
         "None","Ace Pitcher","Attacker","Center","Defender","Doubles Specialist","Forward","Goalkeeper","Guard","Heavyweight Fighter","Hitter","Kicker","Linebacker","Midfielder","Outfielder","Pass Rusher","Pitcher","Point Guard","Power Forward","Quarterback","Receiver","Running Back","Safety","Setter","Shortstop","Sprinter","Striker","Tennis Singles Star","Track Jumper","Wing Player"
       ],
       playerNameNickname: [
-        "None","Ace","Blaze","Boss","Bullet","Captain","Clutch","Crusher","Dash","Flash","Glide","Heat","Ice","Jet","King","Legend","Lightning","Mamba","Nova","Prime","Queen","Rocket","Shadow","Shooter","Spark","Storm","Thunder","Titan","Viper","Wolf"
+        "None","Ace","Blaze","Boss","Bullet","Captain","Clutch","Crusher","Dash","Flash","Glide","Heat","Ice","Jet","Ace Leader","Legend","Lightning","Mamba","Nova","Prime","MVP Star","Rocket","Shadow","Shooter","Spark","Storm","Thunder","Titan","Viper","Wolf"
       ],
       teamName: [
-        "None","Apex Storm","Blaze United","City Titans","Crown Elite","Diamond Force","Elite Heat","Empire Rush","Falcon Fury","Firelight FC","Frost Kings","Golden Strikers","Gravity Squad","Iron Legends","Liberty Lions","Lightning Crew","Luxe Ballers","Metro Rockets","Midnight Wolves","Neon Panthers","Northside Knights","Nova Dynasty","Phantom Pulse","Powerhouse FC","Royal Reign","Shadow Hawks","Skyline Surge","Steel Vortex","Storm Dynasty","Victory Vipers"
+        "None","Apex Storm","Blaze United","City Titans","Elite Legacy","Diamond Force","Elite Heat","Empire Rush","Falcon Fury","Firelight FC","Frost Kings","Golden Strikers","Gravity Squad","Iron Legends","Liberty Lions","Lightning Crew","Luxe Ballers","Metro Rockets","Midnight Wolves","Neon Panthers","Northside Knights","Nova Dynasty","Phantom Pulse","Powerhouse FC","Victory Reign","Shadow Hawks","Skyline Surge","Steel Vortex","Storm Dynasty","Victory Vipers"
       ],
       jerseyNumber: [
         "None","00","01","02","03","04","05","07","08","09","10","11","12","13","15","21","23","24","30","32","34","35","44","45","50","55","77","88","91","99"
       ],
       rivalryMatchupTheme: [
-        "None","Battle for the Crown","Big City Rivalry","Blue vs Gold Clash","Champions vs Challengers","Classic Cross-Town Showdown","Division Rivals","East vs West","Elite vs Underdog","Finals Rematch","Friendly Fire","Generations Collide","Gold Medal Duel","Heavyweight Showdown","Historic Rivalry","Hometown vs Visitors","Legacy Match","Local Derby","Playoff Grudge Match","Power vs Precision","Redemption Matchup","Regional Rivalry","Rematch of the Year","Rising Star vs Veteran","School Spirit Clash","Speed vs Strength","Streetball Challenge","The Ultimate Face-Off","Title Defense Match","Underdog Uprising"
+        "None","Battle for the Title","Big City Rivalry","Blue vs Gold Clash","Champions vs Challengers","Classic Cross-Town Showdown","Division Rivals","East vs West","Elite vs Underdog","Finals Rematch","Friendly Fire","Generations Collide","Gold Medal Duel","Heavyweight Showdown","Historic Rivalry","Hometown vs Visitors","Legacy Match","Local Derby","Playoff Grudge Match","Power vs Precision","Redemption Matchup","Regional Rivalry","Rematch of the Year","Rising Star vs Veteran","School Spirit Clash","Speed vs Strength","Streetball Challenge","The Ultimate Face-Off","Title Defense Match","Underdog Uprising"
       ],
       championshipAwardElements: [
-        "None","All-Star Badge","Award Podium","Banner Reveal","Champion Ring","Championship Belt","Championship Confetti","Championship Medal","Championship Trophy","Cup Raise","Final MVP Tag","Gold Laurel","Gold Medal","Hall of Fame Tribute","MVP Crown","MVP Trophy","Plaque Display","Podium Spotlight","Retired Jersey Banner","Rookie of the Year","Silver Medal","Spotlighted Award Case","State Title Ribbon","Team Banner","Title Graphic","Tournament Bracket Winner","Victory Fireworks","Victory Podium","Winner Sash","World Champion Emblem"
+        "None","All-Star Badge","Award Podium","Banner Reveal","Champion Ring","Championship Belt","Championship Confetti","Championship Medal","Championship Trophy","Cup Raise","Final MVP Tag","Gold Laurel","Gold Medal","Hall of Fame Tribute","MVP Badge","MVP Trophy","Plaque Display","Podium Spotlight","Retired Jersey Banner","Rookie of the Year","Silver Medal","Spotlighted Award Case","State Title Ribbon","Team Banner","Title Graphic","Tournament Bracket Winner","Victory Fireworks","Victory Podium","Winner Sash","World Champion Emblem"
       ],
       comebackUnderdogTheme: [
         "None","Back from Injury","Bounce-Back Season","Built Different","Defied the Odds","Double Overtime Heart","From Bench to Star","From Last Place to Legend","Heart of a Fighter","Hometown Hope","Late-Game Hero","Never Counted Out","No Quit","Prove Them Wrong","Quiet Work Loud Results","Redemption Run","Resilient Return","Rise After the Fall","Rising from the Ashes","Second Chance Story","Shock the World","Sleeper Team Energy","Started from the Bottom","Stolen Spotlight","The Return","They Wrote Me Off","Underdog Fire","Unexpected Hero","Unfinished Business","Worth the Wait"
       ],
       victoryCelebrationStyle: [
-        "None","Arms Raised","Championship Leap","Chest Pound","Confetti Shower","Crowd Salute","Fist Pump","Flag Wave","Glove Point","Group Huddle Celebration","Helmet Toss","Jump and Roar","Kneeling in Gratitude","Locker Room Spray","Mic Drop Energy","MVP Walk-Off","Peace Sign to Crowd","Point to the Sky","Pose with Trophy","Sideline Celebration","Signature Dance","Slow-Motion Victory Stance","Team Pile-Up","Triumphant Scream","Trophy Kiss","Tunnel Walk Victory","Victory Circle","Victory Run","Victory Slide","Winning Smile"
+        
+        "None","Arms Raised","Championship Leap","Chest Pound","Confetti Shower","Crowd Salute","Fist Pump","Flag Wave","Glove Point","Group Huddle Celebration",
+        "Helmet Toss","Jump and Roar","Kneeling in Gratitude","Locker Room Spray","Mic Drop Energy","MVP Walk-Off","Peace Sign to Crowd","Point to the Sky","Pose with Trophy","Roaring",
+        "Sideline Celebration","Signature Dance","Slow-Motion Victory Stance","Team Pile-Up","Triumphant Scream","Trophy Kiss","Tunnel Walk Victory","Victory Circle","Victory Run","Victory Slide",
+        "Winning Smile"
+      
       ],
       uniformStyle: [
         "None","All-Star Uniform","Arena Glam Uniform","Clean Minimal Uniform","Classic Home Uniform","Classic Road Uniform","College Uniform","Compression Set","Cropped Performance Set","Futuristic Uniform","Glow-Trim Uniform","High School Uniform","Luxury Sportswear Uniform","Mascot Uniform","Mesh Practice Uniform","Monochrome Uniform","Playoff Uniform","Pro League Uniform","Retro 80s Uniform","Retro 90s Uniform","School Spirit Uniform","Sleek Performance Uniform","Sleeveless Uniform","Streetball Uniform","Team Warmup Set","Tournament Uniform","Track Suit Uniform","Training Kit","Vintage Uniform","Women's League Uniform"
@@ -387,13 +779,23 @@
         "None","Basketball High-Tops","Bright Colorway Sneakers","Canvas Trainers","Chunky Fashion Sneakers","Cleats","Compression Socks and Cleats","Court Sneakers","Cross-Training Shoes","Designer Sneakers","Foam Runners","Futuristic Light-Up Sneakers","High-Top Sneakers","Indoor Turf Shoes","Knit Trainers","Leather Retro Sneakers","Lightweight Running Shoes","Low-Top Sneakers","Luxury Performance Shoes","Metal-Spike Track Shoes","Mid-Top Sneakers","Monochrome Sneakers","Outdoor Trail Runners","Performance Slides","Platform Sport Sneakers","Retro Court Shoes","Soccer Boots","Streetwear Sneakers","Tennis Shoes","Vintage Athletic Shoes"
       ],
       capsHeadwear: [
-        "None","Athletic Headband","Baseball Cap","Beanie","Bucket Hat","Champion Crown Headpiece","Compression Skull Cap","Fitted Cap","Game Helmet","Glow-Trim Visor","Head Wrap","Knit Cap","Luxury Sports Turban","Mesh Cap","Mini Crown","Protective Face Mask","Retro Sweatband","School Spirit Cap","Signature Bandana","Snapback","Soft Helmet Cap","Sports Hijab","Sun Visor","Sweatband","Team Logo Cap","Training Hood","Turban Wrap","Vintage Dad Cap","Warm-Up Hood","Wide Brim Sideline Hat"
+        
+        "None","Athletic Headband","Baseball Cap","Beanie","Bucket Hat","Champion Headband","Compression Skull Cap","Fitted Cap","Game Helmet","Glow-Trim Visor",
+        "Head Wrap","Knit Cap","Luxury Sports Turban","Mesh Cap","Mini Star Headpiece","Protective Face Mask","Retro Sweatband","School Spirit Cap","Signature Bandana","Snapback",
+        "Soft Helmet Cap","Sparkly Sweatband","Sports Hijab","Sun Visor","Sweatband","Team Logo Cap","Training Hood","Turban Wrap","Vintage Dad Cap","Warm-Up Hood",
+        "Wide Brim Sideline Hat"
+      
       ],
       accessories: [
         "None","Ankle Tape","Arm Sleeve","Athletic Shades","Athletic Tape","Bicep Bands","Captain Armband","Chain Necklace","Compression Sleeve","Crossbody Team Bag","Elbow Pad","Finger Tape","Fitness Tracker","Gloves","Hair Ribbon","Hand Wraps","Jersey Pin","Knee Pads","Mouthguard","Performance Glasses","Protective Goggles","Reaction Bands","Shin Guards","Sports Watch","Statement Earrings","Sweat Towel","Team Bracelet","Visor Clip","Wrist Tape","Wristbands"
       ],
       hairHairstyle: [
-        "None","Afro","Bald","Box Braids","Braided Ponytail","Buzz Cut","Cornrows","Curly Puff","Curly Ponytail","Dreadlocks","Fade Cut","Finger Waves","French Braids","High Bun","High Ponytail","Loc Bun","Long Waves","Loose Curls","Mohawk","Pigtail Braids","Pixie Cut","Protective Updo","Short Curls","Shoulder-Length Straight","Side-Part Waves","Sleek Bob","Sleek Ponytail","Space Buns","Top Knot","Twists"
+        
+        "None","Afro","Bald","Box Braids","Braided Ponytail","Buzz Cut","Cornrows","Curly Ponytail","Curly Puff","Dreadlocks",
+        "Fade Cut","Finger Waves","French Braids","High Bun","High Ponytail","Loc Bun","Long Waves","Loose Curls","Mohawk","Pigtail Braids",
+        "Pixie Cut","Protective Updo","Short Curls","Shoulder-Length Straight","Side-Part Waves","Sleek Bob","Sleek Ponytail","Space Buns","Top Knot","Twists",
+        "Wet Slicked Back"
+      
       ],
       gearEquipment: [
         "None","Baseball Bat","Basketball","Boxing Gloves","Cheer Pom Poms","Cricket Bat","Dumbbells","Field Hockey Stick","Football","Goalkeeper Gloves","Golf Club","Gym Rings","Helmet","Hurdles","Jump Rope","Lacrosse Stick","Medicine Ball","Pickleball Paddle","Resistance Bands","Rugby Ball","Scoreboard Tablet","Skateboard","Soccer Ball","Softball Glove","Speed Ladder","Swim Goggles","Tennis Racket","Track Baton","Volleyball","Wrestling Headgear"
@@ -402,19 +804,43 @@
         "None","Action Stance","Blocking","Celebration Jump","Chest Pass","Crossing Finish Line","Crossover Dribble","Diving Save","Dunking","Explosive Sprint","Fighting Stance","Flag Plant","Follow-Through Swing","Goal Celebration","Jump Shot","Kneeling Focus","Layup Motion","Mid-Air Catch","Power Serve","Punch Combo","Ready Stance","Running With Ball","Sliding Stop","Spike Motion","Steal Attempt","Stretching Pose","Team Huddle Pose","Throwing Motion","Victory Pose","Warm-Up Jog"
       ],
       gameMoment: [
-        "None","Championship Final","Clutch Last Shot","Coin Toss","Comeback Quarter","Game-Winning Goal","Golden Point","Halftime Tunnel Walk","Kickoff","Locker Room Prep","Media Day","Opening Tip-Off","Overtime Pressure","Penalty Kick","Playoff Entrance","Post-Game Interview","Practice Session","Pre-Game Warmup","Record-Breaking Attempt","Rivalry Match","Season Opener","Senior Night","Shootaround","Signing Day","Sudden Death","Team Introduction","Time-Out Moment","Tournament Win","Training Camp","Walk-Off Moment"
+        
+        
+        "None","Championship Final","Clutch Last Shot","Coin Toss","Comeback Quarter","Game-Winning Goal","Gold Medal Duel","Golden Point","Halftime Tunnel Walk","Kickoff",
+        "Locker Room Prep","Media Day","Opening Day","Opening Tip-Off","Overtime Pressure","Penalty Kick","Playoff Entrance","Post-Game Interview","Practice Session","Pre-Game Warmup",
+        "Record-Breaking Attempt","Rivalry Match","Season Opener","Senior Night","Shootaround","Signing Day","Sudden Death","Team Introduction","Time-Out Moment","Tournament Win",
+        "Training Camp","Walk-Off Moment"
+      
+      
       ],
       trainingGameMode: [
         "None","Agility Training","Championship Performance","Conditioning Session","Cool-Down Session","Drill Work","Game Day Mode","Gym Strength Work","Halftime Reset","Heavy Training Day","High-Intensity Practice","Individual Skill Session","Locker Room Prep","Media Shoot Mode","Off-Season Grind","On-Court Reps","Pre-Game Focus","Recovery Session","Scrimmage Mode","Skill Development","Speed Work","Strategy Session","Strength Circuit","Stretch and Mobility","Team Practice","Tournament Mode","Warm-Up Session","Winning Moment","Workout Mode","Youth Camp Drill"
       ],
       fieldCourtCondition: [
-        "None","Arena Hardwood Shine","Clean Indoor Court","Clay Court","Cracked Street Court","Fresh-Cut Grass","Frosty Turf","Glossy Studio Floor","Indoor Gym Floor","Indoor Turf","Muddy Field","Night Stadium Turf","Polished Track Lane","Rain-Soaked Court","Sand Court","School Gym Court","Scuffed Practice Floor","Shiny Lacquer Court","Snow-Dusted Field","Soft Training Mats","Spotlit Center Court","Street Asphalt Court","Sunlit Stadium Grass","Tournament Court","Track Starting Blocks","Urban Rooftop Court","Wet Pavement","Worn Locker Room Floor","Wrestling Mat","Yard Practice Field"
+        
+        "None","Arena Hardwood Shine","Clay Court","Clean Indoor Court","Cracked Street Court","Fresh-Cut Grass","Frosty Turf","Glossy Studio Floor","Indoor Gym Floor","Indoor Pool",
+        "Indoor Turf","Muddy Field","Night Stadium Turf","Polished Track Lane","Rain-Soaked Court","Sand Court","School Gym Court","Scuffed Practice Floor","Shiny Lacquer Court","Snow-Dusted Field",
+        "Soft Training Mats","Spotlit Center Court","Street Asphalt Court","Sunlit Stadium Grass","Tournament Court","Track Starting Blocks","Urban Rooftop Court","Wet Pavement","Worn Locker Room Floor","Wrestling Mat",
+        "Yard Practice Field"
+      
       ],
       motionEffects: [
-        "None","Action Blur","Ball Trail","Burst of Dust","Crowd Motion Blur","Dynamic Energy Lines","Explosive Footstep Impact","Fast Shutter Freeze","Fire Trail","Glow Streaks","Impact Flash","Kinetic Speed Lines","Lightning Arc","Motion Echo","Paint Splash Motion","Particle Burst","Power Aura","Rain Spray","Shoe Skid Sparks","Shockwave Ring","Smoke Trail","Speed Dust","Stadium Light Flare","Starburst Motion","Sweat Spray","Trail of Confetti","Trailing Shadows","Wind Swirl","Zoom Blur","Zoom Streak"
+        
+        "None","Action Blur","Ball Trail","Burst of Dust","Crowd Motion Blur","Dynamic Energy Lines","Explosive Footstep Impact","Fast Shutter Freeze","Fire Trail","Glow Streaks",
+        "Impact Flash","Kinetic Speed Lines","Lightning Arc","Liquid Splash","Motion Echo","Paint Splash Motion","Particle Burst","Power Aura","Rain Spray","Shockwave Ring",
+        "Shoe Skid Sparks","Smoke Trail","Speed Dust","Stadium Light Flare","Starburst Motion","Sweat Spray","Trail of Confetti","Trailing Shadows","Wind Swirl","Zoom Blur",
+        "Zoom Streak"
+      
       ],
       props: [
-        "None","Award Banner","Bench Seating","Bleachers","Championship Trophy","Coach Clipboard","Cones","Crowd Flags","Fog Machine","Gatorade Bottle","Goal Net","Locker Bench","Mascot Plush","Medal Stand","Megaphone","Microphone","Portable Speaker","Scoreboard","Sideline Cooler","Spotlight Rig","Starting Blocks","Stool","Team Flag","Ticket Stub Graphics","Training Cones","Trophy Pedestal","Tunnel Smoke","Victory Podium","Water Bottle","Whistle"
+        
+        
+        "None","Award Banner","Award Podium","Bench Seating","Bleachers","Championship Trophy","Coach Clipboard","Cones","Crowd Flags","Fog Machine",
+        "Gatorade Bottle","Goal Net","Locker Bench","Mascot Plush","Medal Stand","Megaphone","Microphone","Portable Speaker","School Banner","Scoreboard",
+        "Sideline Cooler","Spotlight Rig","Starting Blocks","Stool","Team Flag","Ticket Stub Graphics","Training Cones","Trophy Pedestal","Tunnel Smoke","Victory Podium",
+        "Water Bottle","Whistle"
+      
+      
       ],
       settingLocation: [
         "None","Arena Tunnel","Beach Court","Boxing Ring","Championship Stage","City Street Court","College Stadium","Desert Track","Gymnasium","Ice Rink","Indoor Arena","Indoor Court","Indoor Pool","Lakeside Training Ground","Luxury Sports Studio","Mountain Training Field","Neighborhood Park","Night Stadium","Open Field","Outdoor Court","Practice Facility","Racetrack","Rooftop Court","School Gym","Soccer Field","Sports Hallway","Streetball Court","Tennis Court","Track Stadium","Wrestling Gym"
@@ -436,6 +862,9 @@
       ],
       seasonTheme: [
         "None","All-Star Weekend","Autumn Season","Back-to-School Sports","Championship Season","Christmas Game","Fall Ball","Final Four Style","Holiday Tournament","Homecoming","Off-Season","Opening Day","Playoff Season","Postseason","Preseason","Regular Season","Rivalry Week","School Spirit Season","Senior Night","Spring Training","State Championship","Summer League","Summer Season","Tournament Season","Training Camp","Tryout Season","Victory Parade Season","Winter Classic","Winter Season","Youth League Season"
+      ],
+      artStyleCategory: [
+        "None","Airbrush Glam","Anime Sports Poster","Bold Vector Art","Cartoon Sports Hero","Cel-Shaded Comic","Chibi Sports Character","Exaggerated Chibi Sports Art","Glossy 3D Chibi Sports Art","Luxury Chibi Sports Art","Cinematic Sports Poster","Clean Brand Illustration","Comic Book Hero","Editorial Magazine Art","Fantasy Sports Art","Game Character Art","Glossy 3D Cartoon","Graffiti Street Style","Graphic Novel Art","High-Fashion Sports Art","Hyper-Real Sports Art","Luxury Ad Campaign","Mascot Sticker Art","Mixed Media Collage","Painted Poster Art","Photoreal Sports Editorial","Pop-Art Sports Design","Premium Trading Card Art","Retro Sports Card","Semi-Realistic Illustration","Sticker Pack Style","Toy Collectible Render","Vintage Print Poster","Y2K Sports Graphic"
       ],
       artStyleRealism: [
         "None","3D Render","Airbrushed Poster","Anime Ink Style","Cinematic Poster","Clean Commercial Realism","Comic-Book Ink","Editorial Sports Photography","Flat Graphic Illustration","Glitch Art","Graffiti Street Art","Hand-Painted","High-End Ad Campaign","Hyper-Detailed","Line Art","Magazine Cover Style","Matte Painting","Mixed Media","Photorealistic","Pixel Art","Pop-Art","Retro Print","Storybook Illustration","Studio Glam Realism","Stylized CGI","Toy Commercial Render","Vector Illustration","Vintage Sports Card","Watercolor","Y2K Sports Poster"
@@ -469,6 +898,36 @@
       ],
       textBranding: [
         "None","Athlete name title","Bold sports headline","Championship slogan","Clean logo area","Game-day poster title","Hero tagline","Jersey number emphasis","Magazine cover text","Mascot title","MVP callout","No text overlay","Player quote","Position label","Power slogan","Promo headline","School spirit phrase","Season title","Senior night text","Signature branding","Social media CTA","Sports card label","Team banner wording","Team logo space","Team motto","Tournament title","Victory statement","Vintage sports card text","Warm-up event text","Winner banner"
+      ],
+      mainHeadlineText: [
+        "None","Use Player Nickname","Use Team Name","Use Sport Type","Game Day Hero","MVP Aura","Never Back Down","Rise to Greatness","Victory Mode","Built Different","Clutch Energy","Champion Energy","Legacy Loading","No Quit Energy","Power Play","Final Shot","Fearless Focus","Team Legend","Unstoppable","Win the Moment"
+      ],
+      subheadlineText: [
+        "None","Team Captain","Game Changer","Focused and Fearless","Built for the Moment","We Play Hard","Win With Purpose","Quiet Work Loud Results","One Team One Mission","Pressure Creates Legends","Rise Every Game","Lead With Heart","Discipline Today Dominate Tomorrow","Born for Game Day","The Grind Shows","Keep Pushing","Made for More","Big Stage Energy","Play With Pride","Earned Not Given"
+      ],
+      teamSloganText: [
+        "None","We Play in the Dark. We Win in the Light.","One Team. One Dream.","Heart Over Hype","Play Hard. Stay Ready.","Focus. Power. Precision.","Earn the Moment","Leave No Doubt","All Hustle No Fear","Built to Battle","Dream Work Wins Games","Lead With Fire","Pressure Is the Playground","Stronger Every Play","No Excuses Just Execution","Respect the Grind","Victory Starts Here","Train Loud. Win Louder.","Make the Moment Count","Game Ready Always"
+      ],
+      sideText: [
+        "None","Captain","Leader","Legend","MVP","Focus","Power","Precision","Speed","Strength","Heart","Hustle","Fearless","Clutch","Victory","Elite","Game Ready","Playmaker","Rising Star","Team Pride"
+      ],
+      bottomTagline: [
+        "None","Discipline Today | Dominate Tomorrow","Lead With Heart. Win With Purpose.","Every Play Has a Purpose","Built for the Big Moment","Train Hard. Shine Harder.","Game Day Starts With Focus","Play With Heart. Finish With Power.","The Grind Made This Moment","Turn Pressure Into Power","Where Focus Meets Fire","One Shot. One Moment.","Bring the Energy","From Practice to Power","Make the Crowd Remember","Designed to Win","Keep the Main Thing the Main Thing","Confidence in Motion","Strong Finish Energy","Every Detail Matters"
+      ],
+      jerseyText: [
+        "None","Team Name Only","Player Nickname Only","Team Initials","Captain Text","MVP Text","School Spirit Text","City Name Text","Custom Mascot Text","Short Team Motto","Bold Block Team Text","Script Team Text","Minimal Team Text","Vintage Team Text","Modern Team Text","Clean Athletic Text","Diagonal Jersey Text","Chest Team Text","Small Patch Text","No Jersey Text"
+      ],
+      customNumberText: [
+        "None","00","01","07","08","10","11","12","15","21","23","24","30","32","44","50","55","77","88","99"
+      ],
+      typographyStyle: [
+        "None","Bold Athletic Block","Brush Stroke Sports","Clean Varsity","Metallic Chrome","Graffiti Sports","Luxury Serif","Modern Sans Serif","Neon Glow Text","Distressed Poster Text","Magazine Cover Type","Vintage Sports Card Type","High-Impact Poster Type","Minimal Editorial Type","Comic Action Lettering","Sharp Condensed Type","Soft Script Accent","Stadium Banner Type","Sticker Style Lettering","Premium 3D Text"
+      ],
+      typographyPlacement: [
+        "None","Top Center Headline","Upper Left Headline","Upper Right Headline","Behind Athlete Large Text","Side Marquee Text","Bottom Poster Tagline","Jersey Chest Text Only","Small Corner Label","Integrated Wall Text","Scoreboard Text","Poster Header and Footer","Magazine Cover Layout","Trading Card Text Layout","Clean Text-Free Background","Text Around Athlete","Diagonal Action Text","Centered Hero Title","Lower Third Text","Background Banner Text"
+      ],
+      typographyColor: [
+        "None","Match Team Colors","White Text","Black Text","Gold Text","Silver Text","Royal Blue Text","Purple Text","Red Text","Teal Text","Neon Text","Metallic Gold","Metallic Silver","Chrome Finish","High Contrast Text","Soft Glow Text","Matte Text","Gradient Team Color Text","Outlined Text","Shadowed Text"
       ],
       useCase: [
         "None","AI image prompt","AI video prompt","Athlete poster","Banner design","Brand campaign","Coach promo","Collectible card art","Content cover image","Event flyer","Fan art concept","Game-day schedule graphic","Locker room poster","Magazine cover","Media day promo","Merch mockup","Motivational sports art","Player announcement","Print-on-demand art","Recruiting graphic","School spirit design","Senior night artwork","Social media post","Sports intro graphic","Sports thumbnail","Sticker design","Team poster","Tournament promo","Trading card design","YouTube thumbnail"
@@ -554,6 +1013,7 @@
         title: "Section F: Visual Style",
         description: "Rendering look, mood, grading, effects, and finishing.",
         fields: [
+          { key:"artStyleCategory", label:"Art style category" },
           { key:"artStyleRealism", label:"Art style / realism" },
           { key:"moodEnergy", label:"Mood / energy" },
           { key:"colorGrade", label:"Color grade" },
@@ -581,11 +1041,28 @@
         ]
       },
       {
-        title: "Section I: Output",
+        title: "Section I: Typography / Text Control",
+        description: "Control exact poster wording like the big ACE headline, slogans, jersey text, and number. Custom text overrides dropdown and lock protects it from randomization.",
+        fields: [
+          { key:"mainHeadlineText", label:"Main headline" },
+          { key:"subheadlineText", label:"Subheadline" },
+          { key:"teamSloganText", label:"Team slogan" },
+          { key:"sideText", label:"Side text" },
+          { key:"bottomTagline", label:"Bottom tagline" },
+          { key:"jerseyText", label:"Jersey text" },
+          { key:"customNumberText", label:"Custom number" },
+          { key:"typographyStyle", label:"Typography style" },
+          { key:"typographyPlacement", label:"Typography placement" },
+          { key:"typographyColor", label:"Typography color" }
+        ]
+      },
+      {
+        title: "Section J: Output",
         description: "Output format and custom notes.",
         fields: [
           { key:"outputType", label:"Output type" },
           { key:"orientationFormat", label:"Orientation / format" },
+          { key:"uploadedPhotoReference", label:"Use Uploaded Photo as Reference", type:"checkbox", helper:"Makes the uploaded photo the primary identity lock: same face, body type, skin tone, and natural proportions — no pasted-head look." },
           { key:"customNotes", label:"Custom notes", type:"textarea", placeholder:"Type extra instructions, brand notes, athlete details, sponsor text, scene ideas, or anything else..." }
         ]
       }
@@ -606,10 +1083,10 @@
           emotionStoryTheme:"Champion Energy",
           playerRolePosition:"Point Guard",
           playerNameNickname:"Nova",
-          teamName:"Royal Reign",
+          teamName:"Victory Reign",
           jerseyNumber:"23",
           rivalryMatchupTheme:"Playoff Grudge Match",
-          championshipAwardElements:"MVP Crown",
+          championshipAwardElements:"MVP Badge",
           comebackUnderdogTheme:"Prove Them Wrong",
           victoryCelebrationStyle:"Fist Pump",
           uniformStyle:"Luxury Sportswear Uniform",
@@ -895,7 +1372,7 @@
           facialExpression:"Fierce",
           emotionStoryTheme:"Grit and Glory",
           playerRolePosition:"Heavyweight Fighter",
-          playerNameNickname:"Queen",
+          playerNameNickname:"MVP Star",
           teamName:"Empire Rush",
           jerseyNumber:"05",
           rivalryMatchupTheme:"Heavyweight Showdown",
@@ -954,7 +1431,7 @@
           emotionStoryTheme:"Quiet Discipline",
           playerRolePosition:"Tennis Singles Star",
           playerNameNickname:"Prime",
-          teamName:"Crown Elite",
+          teamName:"Elite Legacy",
           jerseyNumber:"12",
           rivalryMatchupTheme:"Elite vs Underdog",
           championshipAwardElements:"Tournament Bracket Winner",
@@ -1128,7 +1605,7 @@
           emotionStoryTheme:"Power and Pride",
           playerRolePosition:"Forward",
           playerNameNickname:"Legend",
-          teamName:"Crown Elite",
+          teamName:"Elite Legacy",
           jerseyNumber:"15",
           rivalryMatchupTheme:"Legacy Match",
           championshipAwardElements:"Plaque Display",
@@ -1417,7 +1894,7 @@
           facialExpression:"Confident",
           emotionStoryTheme:"MVP Aura",
           playerRolePosition:"Power Forward",
-          playerNameNickname:"Queen",
+          playerNameNickname:"MVP Star",
           teamName:"Luxe Ballers",
           jerseyNumber:"35",
           rivalryMatchupTheme:"Champions vs Challengers",
@@ -1428,7 +1905,7 @@
           jerseyStyle:"Diamond-Trim Jersey",
           teamColors:"Black and Gold",
           sneakersFootwear:"Designer Sneakers",
-          capsHeadwear:"Mini Crown",
+          capsHeadwear:"Mini Star Headpiece",
           accessories:"Statement Earrings",
           hairHairstyle:"Loose Curls",
           gearEquipment:"Basketball",
@@ -1495,6 +1972,24 @@
             input = document.createElement("textarea");
             input.id = field.key;
             input.placeholder = field.placeholder || "";
+            wrap.appendChild(label);
+            wrap.appendChild(input);
+          } else if (field.type === "checkbox") {
+            input = document.createElement("input");
+            input.type = "checkbox";
+            input.id = field.key;
+
+            const toggleWrap = document.createElement("label");
+            toggleWrap.className = "toggle-field";
+            toggleWrap.htmlFor = field.key;
+
+            const helper = document.createElement("span");
+            helper.textContent = field.helper || field.label;
+
+            toggleWrap.appendChild(input);
+            toggleWrap.appendChild(helper);
+            wrap.appendChild(label);
+            wrap.appendChild(toggleWrap);
           } else {
             input = document.createElement("select");
             input.id = field.key;
@@ -1508,10 +2003,41 @@
                 input.appendChild(option);
               });
             }
-          }
 
-          wrap.appendChild(label);
-          wrap.appendChild(input);
+            const control = document.createElement("div");
+            control.className = "category-control";
+
+            const customRow = document.createElement("div");
+            customRow.className = "custom-row";
+
+            const customInput = document.createElement("input");
+            customInput.type = "text";
+            customInput.id = `${field.key}Custom`;
+            customInput.placeholder = `Custom ${field.label.toLowerCase()}...`;
+            customInput.setAttribute("data-custom-for", field.key);
+
+            const lockBtn = document.createElement("button");
+            lockBtn.type = "button";
+            lockBtn.className = "lock-btn";
+            lockBtn.id = `${field.key}Lock`;
+            lockBtn.setAttribute("data-lock-for", field.key);
+            lockBtn.setAttribute("aria-pressed", "false");
+            lockBtn.textContent = "Unlock";
+            lockBtn.addEventListener("click", () => toggleLock(field.key));
+
+            const hint = document.createElement("p");
+            hint.className = "field-hint";
+            hint.textContent = "Custom text overrides dropdown. Lock protects this category from randomization.";
+
+            customRow.appendChild(customInput);
+            customRow.appendChild(lockBtn);
+            control.appendChild(input);
+            control.appendChild(customRow);
+            control.appendChild(hint);
+
+            wrap.appendChild(label);
+            wrap.appendChild(control);
+          }
           fields.appendChild(wrap);
         });
 
@@ -1540,15 +2066,79 @@
       return keys;
     }
 
+    function getDropdownFieldKeys() {
+      return getAllFieldKeys().filter(key => optionData[key]);
+    }
+
+    function isLocked(key) {
+      const btn = document.getElementById(`${key}Lock`);
+      return Boolean(btn && btn.dataset.locked === "true");
+    }
+
+    function setLockState(key, locked) {
+      const btn = document.getElementById(`${key}Lock`);
+      if (!btn) return;
+      btn.dataset.locked = locked ? "true" : "false";
+      btn.classList.toggle("locked", locked);
+      btn.setAttribute("aria-pressed", locked ? "true" : "false");
+      btn.textContent = locked ? "Locked" : "Unlock";
+    }
+
+    function toggleLock(key) {
+      setLockState(key, !isLocked(key));
+    }
+
+    function getCustomValue(key) {
+      const custom = document.getElementById(`${key}Custom`);
+      return custom ? custom.value.trim() : "";
+    }
+
+    function setCustomValue(key, value = "") {
+      const custom = document.getElementById(`${key}Custom`);
+      if (custom) custom.value = value;
+    }
+
+    function getEffectiveFieldValue(key) {
+      const customValue = getCustomValue(key);
+      if (customValue) return customValue;
+      return getFieldValue(key);
+    }
+
+    function clearUnlockedFields() {
+      getAllFieldKeys().forEach(key => {
+        const el = document.getElementById(key);
+        if (!el) return;
+
+        if (optionData[key]) {
+          if (isLocked(key)) return;
+          el.selectedIndex = 0;
+          setCustomValue(key, "");
+          return;
+        }
+
+        if (el.type === "checkbox") return;
+        if (el.tagName === "TEXTAREA") el.value = "";
+      });
+      document.getElementById("presetSelect").value = "";
+    }
+
+
     function setFieldValue(key, value) {
       const el = document.getElementById(key);
       if (!el) return;
-      el.value = value;
+      if (el.type === "checkbox") {
+        el.checked = Boolean(value);
+      } else {
+        el.value = value;
+        if (optionData[key]) setCustomValue(key, "");
+      }
     }
 
     function getFieldValue(key) {
       const el = document.getElementById(key);
-      return el ? el.value : "";
+      if (!el) return "";
+      if (el.type === "checkbox") return el.checked;
+      return el.value;
     }
 
     function applyPreset() {
@@ -1562,29 +2152,129 @@
       generatePrompts();
     }
 
-    function randomizeAll() {
-      getAllFieldKeys().forEach(key => {
-        const el = document.getElementById(key);
-        if (!el) return;
+    function randomChoice(list) {
+      return list[Math.floor(Math.random() * list.length)];
+    }
 
-        if (el.tagName === "TEXTAREA") {
-          const randomNotes = [
-            "",
-            "Make the styling bold and premium.",
-            "Keep the athlete visually distinct with unique accessories and footwear.",
-            "Use polished sports-ad energy.",
-            "Make the scene emotionally powerful and commercially strong.",
-            "Push the cinematic details without making it cluttered.",
-            "Keep the environment suitable for the selected sport."
-          ];
-          el.value = randomNotes[Math.floor(Math.random() * randomNotes.length)];
-        } else if (el.tagName === "SELECT") {
-          const options = [...el.options];
-          const usable = options.slice(1);
-          const chosen = usable[Math.floor(Math.random() * usable.length)];
-          el.value = chosen ? chosen.value : options[0].value;
-        }
-      });
+    function randomOption(key, fallback = "None") {
+      const options = optionData[key] || [];
+      const usable = options.filter(value => value && value !== "None");
+      return usable.length ? randomChoice(usable) : fallback;
+    }
+
+    function safeSet(key, value) {
+      const el = document.getElementById(key);
+      if (!el || isLocked(key)) return;
+      const options = optionData[key];
+      if (options && !options.includes(value)) {
+        el.value = options.includes("None") ? "None" : "";
+        setCustomValue(key, "");
+        return;
+      }
+      setFieldValue(key, value);
+    }
+
+    function randomizeAll() {
+      // Smart Randomizer: builds ONE clean sports concept instead of selecting every category at once.
+      // This prevents cluttered results like mixed sports, pasted-looking photo references, too many text callouts,
+      // and unrelated props fighting each other in the same image.
+      clearUnlockedFields();
+
+      const sportKits = {
+        "Baseball": { settingLocation:"College Stadium", fieldCourtCondition:"Sunlit Stadium Grass", gearEquipment:"Baseball Bat", actionPose:"Throwing Motion", sneakersFootwear:"Cleats", playerRolePosition:"Ace Pitcher", props:"Bleachers", backgroundStyle:"Sports Magazine Cover Look" },
+        "Basketball": { settingLocation:"Indoor Arena", fieldCourtCondition:"Arena Hardwood Shine", gearEquipment:"Basketball", actionPose:"Jump Shot", sneakersFootwear:"Basketball High-Tops", playerRolePosition:"Point Guard", props:"Scoreboard", backgroundStyle:"Arena Crowd Backdrop" },
+        "Boxing": { settingLocation:"Boxing Ring", fieldCourtCondition:"Glossy Studio Floor", gearEquipment:"Boxing Gloves", actionPose:"Fighting Stance", sneakersFootwear:"High-Top Sneakers", playerRolePosition:"Heavyweight Fighter", props:"Spotlight Rig", backgroundStyle:"Spotlight Stage" },
+        "Cheerleading": { settingLocation:"Gymnasium", fieldCourtCondition:"School Gym Court", gearEquipment:"Cheer Pom Poms", actionPose:"Celebration Jump", sneakersFootwear:"Bright Colorway Sneakers", playerRolePosition:"Wing Player", props:"Megaphone", backgroundStyle:"School Banner Wall" },
+        "Football": { settingLocation:"Night Stadium", fieldCourtCondition:"Night Stadium Turf", gearEquipment:"Football", actionPose:"Running With Ball", sneakersFootwear:"Cleats", playerRolePosition:"Quarterback", props:"Tunnel Smoke", backgroundStyle:"Game-Day Lights" },
+        "Golf": { settingLocation:"Open Field", fieldCourtCondition:"Fresh-Cut Grass", gearEquipment:"Golf Club", actionPose:"Follow-Through Swing", sneakersFootwear:"Luxury Performance Shoes", playerRolePosition:"Forward", props:"Award Banner", backgroundStyle:"Minimal Clean Background" },
+        "Gymnastics": { settingLocation:"Indoor Arena", fieldCourtCondition:"Soft Training Mats", gearEquipment:"Gym Rings", actionPose:"Victory Pose", sneakersFootwear:"None", playerRolePosition:"Attacker", props:"Medal Stand", backgroundStyle:"Spotlight Stage" },
+        "Ice Hockey": { settingLocation:"Ice Rink", fieldCourtCondition:"Frosty Turf", gearEquipment:"Helmet", actionPose:"Action Stance", sneakersFootwear:"None", playerRolePosition:"Defender", props:"Goal Net", backgroundStyle:"Arena Crowd Backdrop" },
+        "Racing": { settingLocation:"Racetrack", fieldCourtCondition:"Wet Pavement", gearEquipment:"Helmet", actionPose:"Victory Pose", sneakersFootwear:"Cross-Training Shoes", playerRolePosition:"Sprinter", props:"Team Flag", backgroundStyle:"Action Poster Backdrop" },
+        "Skateboarding": { settingLocation:"City Street Court", fieldCourtCondition:"Street Asphalt Court", gearEquipment:"Skateboard", actionPose:"Action Stance", sneakersFootwear:"Streetwear Sneakers", playerRolePosition:"Attacker", props:"Portable Speaker", backgroundStyle:"Graffiti Street Wall" },
+        "Soccer": { settingLocation:"Soccer Field", fieldCourtCondition:"Fresh-Cut Grass", gearEquipment:"Soccer Ball", actionPose:"Goal Celebration", sneakersFootwear:"Soccer Boots", playerRolePosition:"Striker", props:"Goal Net", backgroundStyle:"Victory Backdrop" },
+        "Softball": { settingLocation:"Open Field", fieldCourtCondition:"Fresh-Cut Grass", gearEquipment:"Softball Glove", actionPose:"Throwing Motion", sneakersFootwear:"Cleats", playerRolePosition:"Shortstop", props:"Bleachers", backgroundStyle:"Field Depth Blur" },
+        "Swimming": { settingLocation:"Indoor Pool", fieldCourtCondition:"Clean Indoor Court", gearEquipment:"Swim Goggles", actionPose:"Ready Stance", sneakersFootwear:"None", playerRolePosition:"Attacker", props:"Award Podium", backgroundStyle:"Clean Studio Gradient" },
+        "Tennis": { settingLocation:"Tennis Court", fieldCourtCondition:"Clay Court", gearEquipment:"Tennis Racket", actionPose:"Power Serve", sneakersFootwear:"Tennis Shoes", playerRolePosition:"Tennis Singles Star", props:"Championship Trophy", backgroundStyle:"Minimal Clean Background" },
+        "Track and Field": { settingLocation:"Track Stadium", fieldCourtCondition:"Polished Track Lane", gearEquipment:"Track Baton", actionPose:"Explosive Sprint", sneakersFootwear:"Metal-Spike Track Shoes", playerRolePosition:"Sprinter", props:"Starting Blocks", backgroundStyle:"Action Poster Backdrop" },
+        "Volleyball": { settingLocation:"Indoor Court", fieldCourtCondition:"Clean Indoor Court", gearEquipment:"Volleyball", actionPose:"Spike Motion", sneakersFootwear:"Court Sneakers", playerRolePosition:"Attacker", props:"Scoreboard", backgroundStyle:"Arena Crowd Backdrop" },
+        "Wrestling": { settingLocation:"Wrestling Gym", fieldCourtCondition:"Wrestling Mat", gearEquipment:"Wrestling Headgear", actionPose:"Action Stance", sneakersFootwear:"Cross-Training Shoes", playerRolePosition:"Defender", props:"Coach Clipboard", backgroundStyle:"High-Energy Poster Background" }
+      };
+
+      const sports = Object.keys(sportKits);
+      const sport = randomChoice(sports);
+      const kit = sportKits[sport];
+
+      safeSet("sportType", sport);
+      safeSet("genderAthleteType", randomChoice(["Female Athlete", "Male Athlete", "Student Athlete", "College Athlete", "Professional Athlete", "Team Captain"]));
+      safeSet("ageGroup", randomChoice(["Adult", "Young Adult", "College Age", "Twenties", "High School"]));
+      safeSet("race", randomOption("race"));
+      safeSet("characterStyle", randomChoice(["Hyper-Realistic Human", "Comic Hero", "Heroic Poster Character", "Exaggerated Chibi", "Glossy 3D Chibi", "Luxury Chibi", "Sports Mascot Chibi"]));
+      safeSet("bodyTypeBuild", randomChoice(["Athletic", "Powerful", "Strong Core", "Toned", "Solid", "Agile", "Defined"]));
+      safeSet("skinToneAppearance", randomOption("skinToneAppearance"));
+      safeSet("facialExpression", randomChoice(["Confident", "Determined", "Focused", "Game Face", "Proud", "Triumphant", "Zeroed In"]));
+      safeSet("emotionStoryTheme", randomChoice(["Champion Energy", "Determination", "Focused Grind", "Grit and Glory", "Legacy in Motion", "MVP Aura", "Rise to Greatness"]));
+
+      safeSet("playerRolePosition", kit.playerRolePosition);
+      safeSet("playerNameNickname", randomOption("playerNameNickname"));
+      safeSet("teamName", randomOption("teamName"));
+      safeSet("jerseyNumber", randomOption("jerseyNumber"));
+
+      // Pick only ONE story lane so the prompt does not stack rivalry + comeback + award + MVP + victory text all together.
+      const storyLane = randomChoice(["rivalry", "award", "comeback", "victory", "quiet"]);
+      safeSet("rivalryMatchupTheme", storyLane === "rivalry" ? randomOption("rivalryMatchupTheme") : "None");
+      safeSet("championshipAwardElements", storyLane === "award" ? randomOption("championshipAwardElements") : "None");
+      safeSet("comebackUnderdogTheme", storyLane === "comeback" ? randomOption("comebackUnderdogTheme") : "None");
+      safeSet("victoryCelebrationStyle", storyLane === "victory" ? randomOption("victoryCelebrationStyle") : "None");
+
+      safeSet("uniformStyle", randomChoice(["Clean Minimal Uniform", "Classic Home Uniform", "College Uniform", "Luxury Sportswear Uniform", "Pro League Uniform", "Sleek Performance Uniform", "Tournament Uniform"]));
+      safeSet("jerseyStyle", randomChoice(["Bold Block Letters", "Clean Minimal Jersey", "Monogram Jersey", "Number-Front Jersey", "Performance Jersey", "Stitched Letter Jersey", "Team Crest Jersey"]));
+      safeSet("teamColors", randomOption("teamColors"));
+      safeSet("sneakersFootwear", kit.sneakersFootwear);
+      safeSet("capsHeadwear", randomChoice(["None", "Athletic Headband", "Baseball Cap", "Fitted Cap", "Game Helmet", "Sun Visor", "Sweatband", "Team Logo Cap"]));
+      safeSet("accessories", randomChoice(["None", "Arm Sleeve", "Captain Armband", "Compression Sleeve", "Gloves", "Sports Watch", "Wristbands"]));
+      safeSet("hairHairstyle", randomOption("hairHairstyle"));
+      safeSet("gearEquipment", kit.gearEquipment);
+
+      safeSet("actionPose", kit.actionPose);
+      safeSet("gameMoment", randomChoice(["Game Day Mode", "Media Day", "Opening Tip-Off", "Playoff Entrance", "Pre-Game Warmup", "Practice Session", "Tournament Win", "Walk-Off Moment"].filter(v => (optionData.gameMoment || []).includes(v))));
+      safeSet("trainingGameMode", randomChoice(["Game Day Mode", "Media Shoot Mode", "Pre-Game Focus", "Team Practice", "Tournament Mode", "Winning Moment"]));
+      safeSet("fieldCourtCondition", kit.fieldCourtCondition);
+      safeSet("motionEffects", randomChoice(["None", "Action Blur", "Fast Shutter Freeze", "Glow Streaks", "Impact Flash", "Kinetic Speed Lines", "Stadium Light Flare", "Zoom Streak"]));
+      safeSet("props", Math.random() < 0.55 ? kit.props : "None");
+
+      safeSet("settingLocation", kit.settingLocation);
+      safeSet("backgroundStyle", kit.backgroundStyle);
+      safeSet("backgroundTextures", randomChoice(["None", "Fabric Banner Texture", "Fog Layer", "Grass Detail", "Haze Glow", "Jersey Mesh Texture", "Polished Floor Reflection", "Stadium Light Grain"]));
+      safeSet("crowdAudience", randomChoice(["None", "Background Spectators", "Blurred Fans", "Cheering Crowd", "Minimal Audience", "Packed Arena", "School Pep Section", "Supportive Crowd"]));
+      safeSet("weatherAtmosphere", randomChoice(["None", "Bright Clear Skies", "Golden Hour Glow", "Indoor Clean Atmosphere", "Night Chill", "Soft Breeze", "Spotlight Haze"]));
+      safeSet("timeOfDay", randomChoice(["Afternoon", "Evening", "Golden Hour", "Late Afternoon", "Morning", "Night", "Prime Time Night"]));
+      safeSet("seasonTheme", randomChoice(["Championship Season", "Opening Day", "Playoff Season", "Regular Season", "School Spirit Season", "Tournament Season"]));
+
+      safeSet("artStyleCategory", randomOption("artStyleCategory"));
+      safeSet("artStyleRealism", randomChoice(["Cinematic Poster", "Clean Commercial Realism", "Editorial Sports Photography", "High-End Ad Campaign", "Magazine Cover Style", "Photorealistic", "Studio Glam Realism"]));
+      safeSet("moodEnergy", randomChoice(["Champion Energy", "Clean and Polished", "Confident", "Empowering", "Focused", "Game-Day Hype", "Luxury Athletic", "Powerful"]));
+      safeSet("colorGrade", randomChoice(["Bold Contrast", "Bright Editorial", "Film Contrast", "Golden Glow", "Royal Blue and Gold", "Soft Luxe Glow", "Sport Broadcast Look", "Warm Gold Highlights"]));
+      safeSet("detailLevel", randomChoice(["Commercial Ad Detail", "Crisp Sharp Detail", "High Detail", "Magazine Print Ready", "Polished Detail", "Poster Quality", "Premium Finish"]));
+      safeSet("specialEffects", randomChoice(["None", "Aura Glow", "Floating Particles", "Glow Outline", "Lens Flares", "Light Leaks", "Star Sparkles"]));
+      safeSet("promptEnhancers", randomChoice(["Clean subject separation", "Commercial polish", "Crisp focus", "Editorial framing", "High-impact sports styling", "Professional visual hierarchy", "Strong focal point"]));
+
+      safeSet("cameraAngle", randomChoice(["Center-Frontal", "Dramatic Low Angle", "Front Hero Angle", "Low Angle", "Slight Low Angle", "Straight-On", "Three-Quarter View", "Wide Hero Angle"]));
+      safeSet("shotTypeFraming", randomChoice(["Full Body Shot", "Head-to-Toe Hero Shot", "Magazine Hero Layout", "Portrait Shot", "Single Subject Hero Frame", "Three-Quarter Body Shot", "Vertical Story Frame"]));
+      safeSet("lighting", randomChoice(["Arena Spotlights", "Bright Daylight", "Championship Spotlight", "Clean Studio Lighting", "Golden Hour Light", "Luxury Editorial Lighting", "Sports Ad Lighting"]));
+      safeSet("shadowStyle", randomChoice(["Clean Minimal Shadows", "Editorial Soft Shadows", "Floor Contact Shadows", "Natural Outdoor Shadows", "Realistic Stadium Shadows", "Soft Studio Shadows", "Strong Hero Shadows"]));
+
+      // Keep text clean: one branding direction only, not five slogans at once.
+      safeSet("textBranding", randomChoice(["No text overlay", "Athlete name title", "Bold sports headline", "Clean logo area", "Hero tagline", "Jersey number emphasis", "Team banner wording"]));
+      safeSet("useCase", randomChoice(["Athlete poster", "Brand campaign", "Collectible card art", "Magazine cover", "Media day promo", "Social media post", "Sports thumbnail", "Team poster"]));
+      safeSet("outputType", randomChoice(["Athlete portrait prompt", "Hero image prompt", "Magazine cover prompt", "Photo prompt", "Poster prompt", "Promo graphic prompt", "Sports card prompt"]));
+      safeSet("orientationFormat", randomChoice(["4:5 Feed", "9:16 Vertical", "Full Poster Portrait", "Instagram Feed", "Magazine Cover Portrait", "Pinterest Pin", "Sports Card Vertical"]));
+
+      const notes = [
+        "Clean sports poster mode: use one sport, one main environment, one clear story, one hero prop max, and uncluttered readable design.",
+        "Keep the athlete fully integrated into the scene; no pasted face, no photo-cutout look, no overloaded background.",
+        "Make the image feel polished, cohesive, premium, and commercially usable."
+      ];
+      setFieldValue("customNotes", notes.join(" "));
       generatePrompts();
     }
 
@@ -1592,16 +2282,22 @@
       getAllFieldKeys().forEach(key => {
         const el = document.getElementById(key);
         if (!el) return;
-        if (el.tagName === "TEXTAREA") {
+        if (el.type === "checkbox") {
+          el.checked = false;
+        } else if (el.tagName === "TEXTAREA") {
           el.value = "";
         } else {
           el.selectedIndex = 0;
+          setCustomValue(key, "");
+          setLockState(key, false);
         }
       });
       document.getElementById("presetSelect").value = "";
       if (generateAfter) {
-        document.getElementById("photoOutput").value = "";
-        document.getElementById("videoOutput").value = "";
+        ["photoOutput","videoOutput","productMockupOutput","digitalProductCoverOutput","salesPageCoverOutput","listingImageOutput","lifestyleMockupOutput"].forEach(id => {
+          const output = document.getElementById(id);
+          if (output) output.value = "";
+        });
       }
     }
 
@@ -1649,6 +2345,7 @@
         weatherAtmosphere:"weather / atmosphere",
         timeOfDay:"time of day",
         seasonTheme:"season / theme",
+        artStyleCategory:"art style category",
         artStyleRealism:"art style / realism",
         moodEnergy:"mood / energy",
         colorGrade:"color grade",
@@ -1660,13 +2357,24 @@
         lighting:"lighting",
         shadowStyle:"shadow style",
         textBranding:"text / branding",
+        mainHeadlineText:"main headline",
+        subheadlineText:"subheadline",
+        teamSloganText:"team slogan",
+        sideText:"side text",
+        bottomTagline:"bottom tagline",
+        jerseyText:"jersey text",
+        customNumberText:"custom number",
+        typographyStyle:"typography style",
+        typographyPlacement:"typography placement",
+        typographyColor:"typography color",
         useCase:"use case",
         outputType:"output type",
         orientationFormat:"orientation / format"
       };
 
       const data = {};
-      Object.keys(labels).forEach(key => data[key] = getFieldValue(key));
+      Object.keys(labels).forEach(key => data[key] = getEffectiveFieldValue(key));
+      data.uploadedPhotoReference = getFieldValue("uploadedPhotoReference");
       data.customNotes = getFieldValue("customNotes").trim();
 
       const selected = Object.keys(labels)
@@ -1698,16 +2406,67 @@
       return `Make the background naturally suitable for the selected sport and keep the environment believable, polished, and visually supportive of the subject. ${details}.`;
     }
 
+    function uploadedPhotoReferenceRule() {
+      return `PHOTO IDENTITY LOCK: Use the uploaded photo as the primary identity source. Keep the same face, skin tone, body type, age impression, and natural proportions. Recreate the full person naturally in the selected sport scene; do not paste, crop, swap, or Photoshop the face onto another body. Change only outfit, sport styling, pose, background, lighting, colors, accessories, and art style.`;
+    }
+
+    function globalNoCrownRule() {
+      return `VISUAL PROTECTION: No crowns, tiaras, royal symbols, scepters, throne details, crown logos, floating UI bars, dashboard panels, feature boxes, app menus, infographic layouts, or pasted-on overlay elements. Keep everything immersive, theme-matched, naturally integrated, and scene-based. Do not add unrelated fantasy, futuristic, butterfly, or decorative motifs unless the user selected them.`;
+    }
+
+    function isChibiSelected(data) {
+      const values = [data.characterStyle, data.artStyleCategory, data.artStyleRealism].join(" ").toLowerCase();
+      return values.includes("chibi") || values.includes("super-deformed") || values.includes("big head");
+    }
+
+    function chibiStyleRule() {
+      return `CHIBI STYLE LOCK: If any chibi style is selected, render the athlete as an intentionally exaggerated chibi sports character with an oversized expressive head, cute compact body, smaller athletic limbs, big readable facial expression, and polished collectible figure proportions. Keep the anatomy intentionally stylized, not realistic adult anatomy. Do not mix realistic head proportions with a chibi body. Do not make the character creepy, distorted, or bobblehead-pasted. Keep the sports uniform, gear, footwear, pose, and environment clear, clean, cute, and premium.`;
+    }
+
+    function typographyLockRule(data) {
+      const typographyFields = [
+        ["main headline", data.mainHeadlineText],
+        ["subheadline", data.subheadlineText],
+        ["team slogan", data.teamSloganText],
+        ["side text", data.sideText],
+        ["bottom tagline", data.bottomTagline],
+        ["jersey text", data.jerseyText],
+        ["custom number", data.customNumberText],
+        ["typography style", data.typographyStyle],
+        ["typography placement", data.typographyPlacement],
+        ["typography color", data.typographyColor]
+      ].filter(([label, value]) => value && value !== "None");
+      if (!typographyFields.length) return "";
+      const textDetails = typographyFields.map(([label, value]) => `${label}: ${value}`).join("; ");
+      return `TYPOGRAPHY LOCK: Use the exact user-selected/custom typography details only: ${textDetails}. Do not replace, rewrite, paraphrase, invent, or auto-generate different headline wording. If custom text is provided, it overrides the dropdown. Keep typography readable, integrated into the scene, and limited to the selected text areas only.`;
+    }
+
     function generatePhotoPrompt() {
       const { data, selected } = collectSelectedData();
       const backgroundLogic = buildBackgroundLogic(data);
 
       const lines = [];
       lines.push(`Create a premium sports-themed AI image featuring a visually distinct athlete.`);
+      lines.push(globalNoCrownRule());
+      if (data.uploadedPhotoReference) {
+        lines.push(uploadedPhotoReferenceRule());
+      }
+      if (isChibiSelected(data)) {
+        lines.push(chibiStyleRule());
+      }
+      const typographyRule = typographyLockRule(data);
+      if (typographyRule) {
+        lines.push(typographyRule);
+      }
       lines.push(`The subject should maintain the same overall aesthetic while introducing uniquely distinct footwear, accessories, styling details, and athletic presence in this render.`);
       lines.push(backgroundLogic);
-      lines.push(`Use the following selections where relevant: ${selected.join(", ")}.`);
-      lines.push(`Keep "race", "skin tone / appearance details", "character style", and "art style / realism" separate: race defines identity context, skin tone / appearance details define complexion and visual nuance, character style defines what kind of athlete appears, and art style defines how the final image is rendered.`);
+      if (selected.length) {
+        lines.push(`Use the following selections where relevant: ${selected.join(", ")}.`);
+      } else {
+        lines.push(`No dropdown selections were chosen yet, so create a clean flexible sports concept using the custom notes if provided.`);
+      }
+      lines.push(`Keep "race", "skin tone / appearance details", "character style", "art style category", and "art style / realism" separate: race defines identity context, skin tone / appearance details define complexion and visual nuance, character style defines what kind of athlete appears, art style category defines the creative style family, and art style / realism defines how polished or realistic the final image is rendered.`);
+      lines.push(`Limit the final image to one clear sport theme, one main environment, one headline style, and one visual story. Do not combine unrelated sports, props, awards, backgrounds, or text themes unless the user specifically selected them together.`);
       lines.push(`Ensure the athlete feels dynamic, believable, high-impact, and polished for commercial-quality sports artwork.`);
       lines.push(`Use full camera control, strong lighting logic, grounded shadow treatment, clear subject separation, strong composition, and premium finishing details.`);
       lines.push(`If text / branding is selected, integrate it tastefully and legibly without overpowering the subject.`);
@@ -1726,9 +2485,25 @@
 
       const lines = [];
       lines.push(`Create a cinematic sports-themed AI video concept featuring one visually distinct athlete.`);
+      lines.push(globalNoCrownRule());
+      if (data.uploadedPhotoReference) {
+        lines.push(uploadedPhotoReferenceRule());
+      }
+      if (isChibiSelected(data)) {
+        lines.push(chibiStyleRule());
+      }
+      const typographyRule = typographyLockRule(data);
+      if (typographyRule) {
+        lines.push(typographyRule);
+      }
       lines.push(`The athlete should maintain the same overall aesthetic throughout the video while still showing uniquely distinct footwear, accessories, styling touches, body language, and motion details.`);
-      lines.push(`Use the following creative direction: ${selected.join(", ")}.`);
+      if (selected.length) {
+        lines.push(`Use the following creative direction: ${selected.join(", ")}.`);
+      } else {
+        lines.push(`No dropdown selections were chosen yet, so create a clean flexible sports video concept using the custom notes if provided.`);
+      }
       lines.push(backgroundLogic);
+      lines.push(`Limit the final video concept to one clear sport theme, one main environment, one headline style, and one visual story. Do not combine unrelated sports, props, awards, backgrounds, or text themes unless the user specifically selected them together.`);
       lines.push(`Structure the video as a short high-impact promo sequence with a clear beginning, middle, and ending.`);
       lines.push(`Opening shot: establish the athlete, setting, and atmosphere using the selected camera angle, framing, lighting, and shadow style.`);
       lines.push(`Middle sequence: show the athlete in motion using the selected action pose, game moment, motion effects, and environment details. Use dynamic movement, athletic energy, and visual storytelling.`);
@@ -1742,11 +2517,60 @@
       return lines.join(" ");
     }
 
+
+    function buildMainConceptSummary(data) {
+      const parts = [
+        data.sportType !== "None" ? data.sportType : "sports",
+        data.genderAthleteType !== "None" ? data.genderAthleteType : "athlete",
+        data.characterStyle !== "None" ? data.characterStyle : "premium sports character",
+        data.teamName !== "None" ? `team: ${data.teamName}` : "",
+        data.teamColors !== "None" ? `colors: ${data.teamColors}` : "",
+        data.emotionStoryTheme !== "None" ? `story: ${data.emotionStoryTheme}` : "",
+        data.outputType !== "None" ? `base output: ${data.outputType}` : ""
+      ].filter(Boolean);
+      return parts.join(" | ");
+    }
+
+    function getSelectValue(id, fallback = "") {
+      const el = document.getElementById(id);
+      return el ? el.value : fallback;
+    }
+
+    function generateProductMockupPrompts() {
+      const { data } = collectSelectedData();
+      const concept = buildMainConceptSummary(data);
+      const style = [data.artStyleCategory, data.artStyleRealism, data.colorGrade, data.moodEnergy, data.detailLevel].filter(v => v && v !== "None").join(", ");
+      const brand = [data.playerNameNickname !== "None" ? data.playerNameNickname : "", data.teamName !== "None" ? data.teamName : "", data.jerseyNumber !== "None" ? `#${data.jerseyNumber}` : ""].filter(Boolean).join(" ");
+      const notes = data.customNotes ? ` Use these custom notes where helpful: ${data.customNotes}` : "";
+      const noCrown = ` ${globalNoCrownRule()}`;
+      const typographyRule = typographyLockRule(data);
+      const typography = typographyRule ? ` ${typographyRule}` : "";
+      const productMockupStyle = getSelectValue("productMockupStyle", "Full Product Bundle Mockup");
+      const digitalProductCoverStyle = getSelectValue("digitalProductCoverStyle", "Prompt Pack Cover");
+      const salesPageCoverStyle = getSelectValue("salesPageCoverStyle", "Hero Banner Cover");
+      const listingImageStyle = getSelectValue("listingImageStyle", "Marketplace Listing Graphic");
+      const lifestyleMockupStyle = getSelectValue("lifestyleMockupStyle", "Creator Desk Lifestyle Scene");
+
+      return {
+        productMockup: `Create a premium ${productMockupStyle.toLowerCase()} prompt based on this main generated concept: ${concept}. Show the finished sports artwork applied to sellable products that match this selected mockup direction. Keep the design cohesive with the selected athlete, sport, team colors, story theme, and visual style. Use a clean commercial mockup scene with high-end lighting, realistic shadows, crisp product edges, premium presentation, and enough negative space for product marketing. Make it look ready for Payhip, Etsy, Shopify, or social media promotion.${style ? ` Visual style: ${style}.` : ""}${brand ? ` Include tasteful branding inspired by: ${brand}.` : ""}${noCrown}${typography}${notes}`,
+        digitalCover: `Create a ${digitalProductCoverStyle.toLowerCase()} prompt based on this main generated concept: ${concept}. Design a polished cover for a downloadable sports digital product. Use bold readable title space, clean hierarchy, premium sports energy, product-bundle layout, glossy digital cover styling, and a clear preview of the athlete artwork. Make it feel like a high-value digital product customers would want to buy.${style ? ` Visual style: ${style}.` : ""}${brand ? ` Branding inspiration: ${brand}.` : ""}${noCrown}${typography}${notes}`,
+        salesCover: `Create a ${salesPageCoverStyle.toLowerCase()} prompt based on this main generated concept: ${concept}. Design a scroll-stopping sales page cover for a digital sports artwork product. Include a strong hero mockup area, product bundle preview, bold headline space, call-to-action area, clean contrast, premium sports campaign lighting, and a polished commercial layout. Make the result feel trustworthy, exciting, and ready to sell.${style ? ` Visual style: ${style}.` : ""}${brand ? ` Branding inspiration: ${brand}.` : ""}${noCrown}${typography}${notes}`,
+        listingImage: `Create a ${listingImageStyle.toLowerCase()} prompt based on this main generated concept: ${concept}. Design a marketplace-ready listing graphic that clearly shows what the buyer gets: sports poster prompt, image result preview, mockup examples, cover image, and bonus usage ideas. Use readable text zones, clean product hierarchy, high contrast, polished spacing, and a premium digital-product seller aesthetic. Make it suitable for Payhip, Etsy, Gumroad, or Stan Store listings.${style ? ` Visual style: ${style}.` : ""}${brand ? ` Branding inspiration: ${brand}.` : ""}${noCrown}${typography}${notes}`,
+        lifestyleMockup: `Create a ${lifestyleMockupStyle.toLowerCase()} prompt based on this main generated concept: ${concept}. Show the sports artwork being used in a realistic lifestyle selling scene with clear product use and buyer appeal. Keep it clean, modern, aspirational, and commercially polished so customers instantly understand how they can use and sell the result.${style ? ` Visual style: ${style}.` : ""}${brand ? ` Branding inspiration: ${brand}.` : ""}${noCrown}${typography}${notes}`
+      };
+    }
+
     function generatePrompts() {
       const photo = generatePhotoPrompt();
       const video = generateVideoPrompt();
+      const productPrompts = generateProductMockupPrompts();
       document.getElementById("photoOutput").value = photo;
       document.getElementById("videoOutput").value = video;
+      document.getElementById("productMockupOutput").value = productPrompts.productMockup;
+      document.getElementById("digitalProductCoverOutput").value = productPrompts.digitalCover;
+      document.getElementById("salesPageCoverOutput").value = productPrompts.salesCover;
+      document.getElementById("listingImageOutput").value = productPrompts.listingImage;
+      document.getElementById("lifestyleMockupOutput").value = productPrompts.lifestyleMockup;
     }
 
     async function copyText(text) {
@@ -1756,7 +2580,12 @@
       } catch (err) {
         const ta = document.createElement("textarea");
         ta.value = text;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.left = "-9999px";
+        ta.style.whiteSpace = "pre-wrap";
         document.body.appendChild(ta);
+        ta.focus();
         ta.select();
         try {
           document.execCommand("copy");
@@ -1789,6 +2618,18 @@
       alert(ok ? "Video script copied." : "Copy failed. Try manually selecting the text.");
     }
 
+
+    async function copyOutputById(id, label) {
+      const el = document.getElementById(id);
+      const text = el ? el.value : "";
+      if (!text.trim()) {
+        alert(`Generate the ${label} first.`);
+        return;
+      }
+      const ok = await copyText(text);
+      alert(ok ? `${label} copied.` : "Copy failed. Try manually selecting the text.");
+    }
+
     function init() {
       renderSections();
       populatePresets();
@@ -1800,6 +2641,11 @@
       document.getElementById("generateBtnBottom").addEventListener("click", generatePrompts);
       document.getElementById("copyPhotoBtn").addEventListener("click", copyPhoto);
       document.getElementById("copyVideoBtn").addEventListener("click", copyVideo);
+      document.getElementById("copyProductMockupBtn").addEventListener("click", () => copyOutputById("productMockupOutput", "Product mockup prompt"));
+      document.getElementById("copyDigitalProductCoverBtn").addEventListener("click", () => copyOutputById("digitalProductCoverOutput", "Digital product cover prompt"));
+      document.getElementById("copySalesPageCoverBtn").addEventListener("click", () => copyOutputById("salesPageCoverOutput", "Sales page cover prompt"));
+      document.getElementById("copyListingImageBtn").addEventListener("click", () => copyOutputById("listingImageOutput", "Listing image prompt"));
+      document.getElementById("copyLifestyleMockupBtn").addEventListener("click", () => copyOutputById("lifestyleMockupOutput", "Lifestyle mockup prompt"));
 
       generatePrompts();
     }
@@ -1838,6 +2684,33 @@
         option.textContent = "Graffiti Hero";
         charStyle.appendChild(option);
       }
+
+      const chibiCharacterOptions = ["Exaggerated Chibi", "Luxury Chibi", "Sports Mascot Chibi", "Super-Deformed Chibi", "Tiny Hero Chibi", "Big Head Anime Chibi", "Mini Athlete Chibi", "Hyper-Cute Chibi", "Collectible Figure Chibi", "Glossy 3D Chibi"];
+      const chibiArtOptions = ["Exaggerated Chibi Sports Art", "Glossy 3D Chibi Sports Art", "Luxury Chibi Sports Art"];
+
+      if (charStyle) {
+        chibiCharacterOptions.forEach(value => {
+          if (![...charStyle.options].some(o => o.value === value)) {
+            const option = document.createElement("option");
+            option.value = value;
+            option.textContent = value;
+            charStyle.appendChild(option);
+          }
+        });
+      }
+
+      const artStyleCategory = document.getElementById("artStyleCategory");
+      if (artStyleCategory) {
+        chibiArtOptions.forEach(value => {
+          if (![...artStyleCategory.options].some(o => o.value === value)) {
+            const option = document.createElement("option");
+            option.value = value;
+            option.textContent = value;
+            artStyleCategory.appendChild(option);
+          }
+        });
+      }
+
     });
   </script>
 </body>
